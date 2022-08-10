@@ -333,12 +333,9 @@
         - I dont believe it for a second tho
 9. CTF{SB:575756}, meh strings, but i’d like to solve it looking in the java code
 10. 
-11.  This is caleld a format string exploit : [https://web.ecs.syr.edu/~wedu/Teaching/cis643/LectureNotes_New/Format_String.pdf](https://web.ecs.syr.edu/~wedu/Teaching/cis643/LectureNotes_New/Format_String.pdf)
-    
-    
-    - if we analyze the pseudocode in IDA, we find the jewel “print(d)” where d is our input, we can exploit this
-    - 
-    - code
+11.  This is called a format string exploit : [https://web.ecs.syr.edu/~wedu/Teaching/cis643/LectureNotes_New/Format_String.pdf](https://web.ecs.syr.edu/~wedu/Teaching/cis643/LectureNotes_New/Format_String.pdf)
+     - if we analyze **the** pseudocode in IDA, we find the jewel “print(d)” where d is our input, we can exploit this
+     - code
         
         ```python
         from pwn import *
@@ -365,9 +362,8 @@
         conn.close()
         ```
         
-    - i hate pwn tools, it doesn’t make sense to me YET, but if we run it, we get this at one time
-        - 
-            
+     - i hate pwn tools, it doesn’t make sense to me YET, but if we run it, we get this at one time
+     - 
             ```jsx
             |imeR|
             |TC :redn|
@@ -378,49 +374,44 @@
             ```
             
         - it’s backwards, maybe in little endian(it can be solved if we [::-1] the decode), but we can make sense of it →
-    - **CTF{format_string_for_the_win}**
-    1. easy one
-        - we see that some of the numbers are grayed out
-        - then a simple script tries all of them
-            - code
-                
-                ```python
-                import requests
-                from itertools import permutations
-                
-                url = 'https://old-lock-web.2021.ctfcompetition.com/'
-                
-                # set form data
-                form_data = {
-                    'v':'12345'
-                }
-                
-                vals = [3,5,7,8,0]
-                pins = list(permutations(vals,5))
-                
-                for i in pins:
-                    res = requests.post(url, data={'v':''.join(str(x) for x in i)})
-                    print(''.join(str(x) for x in i))
-                    if 'Hmm no, that\'s not it...' not in res.text:
-                        print(i)
-                        print(res.text)
-                ```
+     - **CTF{format_string_for_the_win}**
+12. easy one
+    - we see that some of the numbers are grayed out
+    - then a simple script tries all of them
+    - code
+    - ```python
+        import requests
+        from itertools import permutations
+        
+        url = 'https://old-lock-web.2021.ctfcompetition.com/'
+        
+        # set form data
+        form_data = {
+            'v':'12345'
+        }
+        
+        vals = [3,5,7,8,0]
+        pins = list(permutations(vals,5))
+        
+        for i in pins:
+            res = requests.post(url, data={'v':''.join(str(x) for x in i)})
+            print(''.join(str(x) for x in i))
+            if 'Hmm no, that\'s not it...' not in res.text:
+                print(i)
+                print(res.text)
+            ```
                 
         - **CTF{IThinkWeNeedToReplaceTheKeypad}**
-    2. This one is easy too, we get a wireshark network log,
-        - we look through it and we find a zip file
-        - we download it and it requires a password
-        - if we contien to look, we see a html page
-        - we put it in a file and we jave all kings of functions like
-        - 
-        
+13. This one is easy too, we get a wireshark network log,
+    - we look through it and we find a zip file
+    - we download it and it requires a password
+    - if we contien to look, we see a html page
+    - we put it in a file and we jave all kings of functions like
         ```jsx
         function encryptWithMilitaryGradeEncryption(text) 
         function decryptWithMilitaryGradeEncryption(hexstr)
         ```
-        
-        - then we see some websocket action, messages
-        - 
+    - then we see some websocket action, messages
         
         ```jsx
         {"militaryGradeEncryption":false,"codename":"BadGuy87","message":"which zip file?"}
@@ -488,13 +479,12 @@
         
         - it works then we get a flag.txt which is out flag
         - **CTF{PleaseAssumeThisIsSomeSecretStuffThankYou}**
-    3. 
-    4. Reverse a pascal code? ooof
-        - this one is kind of fun, it’s just bits operation, we can work them backwords and then we get the flag
-        - 
-        - code
-            
-            ```python
+
+14. Reverse a pascal code? ooof
+    - this one is kind of fun, it’s just bits operation, we can work them backwords and then we get the flag
+    - code
+
+        ```python
             def rotateBits(x,i):#we simulate the operations
             	return (x<<i)|(x>>(64-i))
             
@@ -533,10 +523,9 @@
             print(hex(res)[2:][::-1])
             ```
             
-        - the output is longer, but i did just assumed its the first 16 digits
-        - **CTF{3333319552798534}**
-    5.  
-    6. Its kind of a new kind of challange, we need to make a code small
+    - the output is longer, but i did just assumed its the first 16 digits
+    - **CTF{3333319552798534}**
+  1. Its kind of a new kind of challange, we need to make a code small
         
         ```python
         from struct import *
