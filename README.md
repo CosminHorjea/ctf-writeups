@@ -1,0 +1,1 @@
+Im pretty bad at CTF's and i thought this will make me write things I found interesting
